@@ -15,7 +15,13 @@ const app = express();
 app.use(express.json());
 
 // Enable CORS
-app.use(cors());
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND_URL 
+    : 'http://localhost:5173', // Your local frontend URL
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Simple test route
 app.get('/', (req, res) => {
