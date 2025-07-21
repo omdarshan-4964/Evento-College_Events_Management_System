@@ -1,0 +1,19 @@
+<svg width="250" height="60" viewBox="0 0 250 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_101_2)">
+        <!-- Icon part of the logo -->
+        <path d="M35 10H5V20H25V27.5H7.5V42.5H25V47.5H5V50H35C38.3137 50 41 47.3137 41 44V16C41 12.6863 38.3137 10 35 10Z" fill="#4f46e5"/>
+        <circle cx="22.5" cy="33.75" r="3.75" fill="white"/>
+        <circle cx="32.5" cy="38.75" r="3.75" fill="white"/>
+        <circle cx="22.5" cy="38.75" r="3.75" fill="white"/>
+        <line x1="26.25" y1="33.75" x2="28.75" y2="33.75" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Text part of the logo -->
+        <text x="60" y="40" font-family="'Poppins', sans-serif" font-size="32" font-weight="600" fill="#1f2937">
+            Evento
+        </text>
+    </g>
+    <defs>
+        <clipPath id="clip0_101_2">
+            <rect width="250" height="60" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>

@@ -1,0 +1,40 @@
+@import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background-light text-foreground-light transition-colors duration-300;
+  }
+  body.dark {
+    @apply bg-background-dark text-foreground-dark;
+  }
+}
+
+/* Styles for react-datepicker */
+.react-datepicker {
+  @apply bg-card-light border-border-light rounded-md shadow-lg;
+}
+.dark .react-datepicker {
+  @apply bg-card-dark border-border-dark;
+}
+.react-datepicker__header {
+  @apply bg-gray-100 dark:bg-gray-700 border-b border-border-light dark:border-border-dark;
+}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+  @apply text-foreground-light dark:text-foreground-dark;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+    @apply text-foreground-light dark:text-foreground-dark;
+}
+.react-datepicker__day:hover {
+    @apply bg-primary-light/20 dark:bg-primary-dark/20;
+}
+.react-datepicker__day--selected, .react-datepicker__day--keyboard-selected {
+    @apply bg-primary-light text-white dark:bg-primary-dark;
+}
+.react-datepicker__day--disabled {
+    @apply text-gray-400 dark:text-gray-500;
+}
