@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 import Navbar from './components/layout/Navbar';
 import ProtectedRoute from './components/routing/ProtectedRoute';
@@ -8,7 +9,7 @@ import PublicRoute from './components/routing/PublicRoute';
 import SuperAdminRoute from './components/routing/SuperAdminRoute';
 import ClubAdminRoute from './components/routing/ClubAdminRoute';
 
-// Corrected import paths to use lowercase 'pages'
+
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';

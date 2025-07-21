@@ -4,7 +4,7 @@ Evento is a full-stack MERN application designed to solve the core problem of ve
 
 ## Live Demo
 
-[Link to your deployed application will go here]
+https://evento-zeta-nine.vercel.app/
 
 ## Features
 
@@ -38,8 +38,8 @@ Evento is a full-stack MERN application designed to solve the core problem of ve
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/evento-project.git](https://github.com/your-username/evento-project.git)
-    cd evento-project
+    git clone 
+    cd evento
     ```
 
 2.  **Setup the Backend (`server`):**
@@ -85,5 +85,5 @@ To deploy this project, you will typically:
 1.  **Deploy the Backend:** Host the `server` folder on a service like Render, Vercel, or Heroku. Remember to set your production environment variables in the service's dashboard.
 2.  **Deploy the Frontend:** Host the `client` folder on a static hosting service like Netlify or Vercel.
     - Before deploying, you'll need to create a `.env.production` file in the `client` directory.
-    - Add the following variable, pointing to your deployed backend URL: `VITE_API_URL=https://your-deployed-backend-url.com`
+    - Add the following variable, pointing to your deployed backend URL: `VITE_API_URL=https://evento-backend-bjox.onrender.com`
     - Update the `FRONTEND_URL` in your backend's production environment variables to match your deployed frontend URL to ensure CORS works correctly.

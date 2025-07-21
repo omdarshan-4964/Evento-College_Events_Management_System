@@ -9,12 +9,6 @@ dotenv.config();
 // Connect to database
 connectDB();
 
-// --- ADD THESE THREE LINES FOR DEBUGGING ---
-console.log('--- DEPLOYMENT LOGS ---');
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
-// --- END OF DEBUGGING LINES ---
-
 const app = express();
 
 // Body parser middleware

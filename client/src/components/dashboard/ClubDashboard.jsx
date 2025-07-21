@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bookingService from '../../services/bookingService';
-import eventService from '../../services/eventService'; // We need to import this again
+import eventService from '../../services/eventService'; 
 import { useAuth } from '../../context/AuthContext';
 import Spinner from '../common/Spinner';
 import BookingStatusBadge from '../bookings/BookingStatusBadge';
@@ -9,7 +9,7 @@ import { Edit, Trash2, CalendarPlus } from 'lucide-react';
 
 const ClubDashboard = () => {
     const [myBookings, setMyBookings] = useState([]);
-    const [unbookedEvents, setUnbookedEvents] = useState([]); // New state for unbooked events
+    const [unbookedEvents, setUnbookedEvents] = useState([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();

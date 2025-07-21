@@ -25,7 +25,6 @@ const EditBookingPage = () => {
     useEffect(() => {
         const fetchBooking = async () => {
             try {
-                // Use the new, correct service function to get a single booking
                 const { data: currentBooking } = await bookingService.getBookingById(bookingId);
                 
                 if (currentBooking) {

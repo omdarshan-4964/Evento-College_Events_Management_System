@@ -1,5 +1,3 @@
-// server/routes/venueRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const { createVenue, getVenues } = require('../controllers/venueController');

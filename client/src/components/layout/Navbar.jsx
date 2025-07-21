@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LogIn, UserPlus, LogOut, LayoutDashboard, Building, Calendar as CalendarIcon, ClipboardCheck, BarChart2, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ThemeToggle from '../common/ThemeToggle';
-// Assuming your logo is in src/assets/logo.svg
 import EventoLogo from '../../assets/logo.svg';
 
 const Navbar = () => {

@@ -1,4 +1,3 @@
-// src/pages/admin/VenueManagementPage.jsx
 import { useState, useEffect } from 'react';
 import { PlusCircle } from 'lucide-react';
 import venueService from '../../services/venueService';

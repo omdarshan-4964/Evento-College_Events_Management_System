@@ -1,5 +1,3 @@
-// server/controllers/venueController.js
-
 const Venue = require('../models/Venue');
 
 /**

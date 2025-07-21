@@ -8,39 +8,46 @@ const generateToken = (id) => {
   });
 };
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+/**
+ * @desc    Register a new user
+ * @route   POST /api/auth/register
+ * @access  Public
+ */
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+    // Email domain validation
+    const allowedDomain = '@gmail.com';
+    if (!email.endsWith(allowedDomain)) {
+        return res.status(400).json({ message: `Registration is only allowed for ${allowedDomain} addresses.` });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'A user with this email already exists.' });
     }
 
     const user = await User.create({ name, email, password });
 
     if (user) {
+      // UPDATED: Send a simple success message instead of logging the user in.
       res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        token: generateToken(user._id),
+        message: 'User registered successfully! Please log in.'
       });
     } else {
-      res.status(400).json({ message: 'Invalid user data' });
+      res.status(400).json({ message: 'Invalid user data provided.' });
     }
   } catch (error) {
       res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
 
-// @desc    Auth user & get token
-// @route   POST /api/auth/login
-// @access  Public
+/**
+ * @desc    Auth user & get token
+ * @route   POST /api/auth/login
+ * @access  Public
+ */
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
