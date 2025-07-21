@@ -1,74 +1,50 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { PlusCircle } from 'lucide-react';
 
-import Navbar from './components/layout/Navbar';
-import ProtectedRoute from './components/routing/ProtectedRoute';
-import PublicRoute from './components/routing/PublicRoute';
-import SuperAdminRoute from './components/routing/SuperAdminRoute';
-import ClubAdminRoute from './components/routing/ClubAdminRoute';
+import AdminDashboard from '../components/dashboard/AdminDashboard';
+import ClubDashboard from '../components/dashboard/ClubDashboard';
+import StudentDashboard from '../components/dashboard/StudentDashboard';
 
-// Corrected import paths to use lowercase 'pages'
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import MyRegistrationsPage from './pages/MyRegistrationsPage';
-import DashboardPage from './pages/DashboardPage';
-import VenueManagementPage from './pages/admin/VenueManagementPage';
-import CreateEventPage from './pages/events/CreateEventPage';
-import NewBookingPage from './pages/bookings/NewBookingPage';
-import CalendarPage from './pages/CalendarPage';
-import EditBookingPage from './pages/bookings/EditBookingPage';
-import AnalyticsPage from './pages/admin/AnalyticsPage';
-import UserManagementPage from './pages/admin/UserManagementPage';
+const DashboardPage = () => {
+    const { user } = useAuth();
+    const navigate = useNavigate();
 
-// This is a wrapper component to allow App to use routing hooks
-const AppContent = () => {
-  const location = useLocation();
+    const isClubAdmin = user?.role === 'club_admin' || user?.role === 'super_admin';
 
-  // These are the routes where the main navbar will be hidden
-  const hideNavbarRoutes = ['/', '/login', '/register'];
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+    const renderRoleDashboard = () => {
+        switch (user?.role) {
+            case 'super_admin':
+                return <AdminDashboard />;
+            case 'club_admin':
+                return <ClubDashboard />;
+            case 'student':
+                return <StudentDashboard />;
+            default:
+                return <p>Loading dashboard...</p>;
+        }
+    };
 
-  return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
-      {!shouldHideNavbar && <Navbar />}
-      <main>
-        <Routes>
-          <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
-          <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
-          <Route path="/my-registrations" element={<ProtectedRoute><MyRegistrationsPage /></ProtectedRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-          <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
-
-          {/* Admin Routes */}
-          <Route path="/admin/venues" element={<SuperAdminRoute><VenueManagementPage /></SuperAdminRoute>} />
-          <Route path="/admin/users" element={<SuperAdminRoute><UserManagementPage /></SuperAdminRoute>} />
-          <Route path="/admin/analytics" element={<SuperAdminRoute><AnalyticsPage /></SuperAdminRoute>} />
-
-          {/* Club Admin Routes */}
-          <Route path="/events/new" element={<ClubAdminRoute><CreateEventPage /></ClubAdminRoute>} />
-          <Route path="/bookings/new" element={<ClubAdminRoute><NewBookingPage /></ClubAdminRoute>} />
-          <Route path="/bookings/:id/edit" element={<ClubAdminRoute><EditBookingPage /></ClubAdminRoute>} />
-
-          {/* Catch-all route to redirect unknown paths */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-    </div>
-  );
+    return (
+        <div className="container mx-auto p-8">
+            <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+                    <p className="mt-1 text-slate-600 dark:text-slate-300">Welcome back, {user?.name}!</p>
+                </div>
+                {isClubAdmin && (
+                    <button 
+                        onClick={() => navigate('/events/new')}
+                        className="flex items-center space-x-2 px-4 py-2 rounded-md font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors"
+                    >
+                        <PlusCircle size={20} />
+                        <span>New Event</span>
+                    </button>
+                )}
+            </div>
+            
+            {renderRoleDashboard()}
+        </div>
+    );
 };
-
-function App() {
-  return (
-    <ThemeProvider>
-      <AuthProvider>
-        {/* The AppContent component is now wrapped, so useLocation works correctly */}
-        <AppContent />
-      </AuthProvider>
-    </ThemeProvider>
-  );
-}
-
-export default App;
+export default DashboardPage;
