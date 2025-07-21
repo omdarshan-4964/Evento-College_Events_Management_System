@@ -8,10 +8,11 @@ import PublicRoute from './components/routing/PublicRoute';
 import SuperAdminRoute from './components/routing/SuperAdminRoute';
 
 import HomePage from './pages/HomePage';
-import LoginPage from './Pages/LoginPage';
+import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyRegistrationsPage from './pages/MyRegistrationsPage';
 import DashboardPage from './Pages/DashboardPage';
+
 import VenueManagementPage from './pages/admin/VenueManagementPage';
 import ClubAdminRoute from './components/routing/ClubAdminRoute';
 import CreateEventPage from './pages/events/CreateEventPage';
