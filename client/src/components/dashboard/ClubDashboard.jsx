@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bookingService from '../../services/bookingService';
-import eventService from '../../services/eventService'; 
+import eventService from '../../services/eventService';
 import { useAuth } from '../../context/AuthContext';
 import Spinner from '../common/Spinner';
 import BookingStatusBadge from '../bookings/BookingStatusBadge';
@@ -9,7 +9,7 @@ import { Edit, Trash2, CalendarPlus } from 'lucide-react';
 
 const ClubDashboard = () => {
     const [myBookings, setMyBookings] = useState([]);
-    const [unbookedEvents, setUnbookedEvents] = useState([]); 
+    const [unbookedEvents, setUnbookedEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -19,7 +19,6 @@ const ClubDashboard = () => {
         setLoading(true);
         setError(null);
         try {
-            // Fetch both bookings and all events in parallel
             const [bookingsRes, eventsRes] = await Promise.all([
                 bookingService.getMyBookings(),
                 eventService.getAllEvents()
@@ -27,8 +26,7 @@ const ClubDashboard = () => {
 
             setMyBookings(bookingsRes.data);
 
-            // Logic to find which events have NOT been booked yet
-            const bookedEventIds = new Set(bookingsRes.data.map(b => b.event._id));
+            const bookedEventIds = new Set(bookingsRes.data.map(b => b.event?._id));
             const myCreatedEvents = eventsRes.data.filter(event => event.organizer._id === user._id);
             const notYetBooked = myCreatedEvents.filter(event => !bookedEventIds.has(event._id));
             
@@ -49,7 +47,7 @@ const ClubDashboard = () => {
         if (window.confirm('Are you sure you want to cancel this booking request?')) {
             try {
                 await bookingService.deleteBooking(bookingId);
-                fetchData(); // Re-fetch all data to ensure UI is consistent
+                fetchData();
             } catch (err) {
                 setError('Failed to cancel booking.');
             }
@@ -64,7 +62,6 @@ const ClubDashboard = () => {
         <div className="mt-8 space-y-8">
             {error && <p className="text-center text-red-500">{error}</p>}
 
-            {/* Section for Unbooked Events */}
             <section className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Events Awaiting Booking</h2>
                 {unbookedEvents.length > 0 ? (
@@ -92,7 +89,6 @@ const ClubDashboard = () => {
                 )}
             </section>
 
-            {/* Section for Existing Booking Requests */}
             <section className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-4">My Booking Requests</h2>
                 {myBookings.length > 0 ? (
@@ -110,8 +106,8 @@ const ClubDashboard = () => {
                             <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
                                 {myBookings.map(booking => (
                                     <tr key={booking._id}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">{booking.event.name}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">{booking.venue.name}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">{booking.event?.name || 'Deleted Event'}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">{booking.venue?.name || 'Deleted Venue'}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">{new Date(booking.startTime).toLocaleString()}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm"><BookingStatusBadge status={booking.status} /></td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-right space-x-2">

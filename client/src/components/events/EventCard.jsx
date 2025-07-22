@@ -3,26 +3,27 @@ import { Calendar, MapPin, Check, Users, AlertCircle } from 'lucide-react';
 import registrationService from '../../services/registrationService';
 
 const EventCard = ({ booking, isRegistered, onRegisterSuccess }) => {
-    const { event, venue, startTime, registrationCount } = booking;
+    // Destructure safely, in case booking or its properties are null/undefined
+    const { event, venue, startTime, registrationCount } = booking || {};
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const isFull = registrationCount >= venue.capacity;
+    // Safe check for capacity
+    const isFull = venue ? registrationCount >= venue.capacity : true;
 
-    const formattedDate = new Date(startTime).toLocaleDateString('en-US', {
+    const formattedDate = startTime ? new Date(startTime).toLocaleDateString('en-US', {
         weekday: 'long', month: 'long', day: 'numeric',
-    });
-    const formattedTime = new Date(startTime).toLocaleTimeString('en-US', {
+    }) : 'Date not available';
+
+    const formattedTime = startTime ? new Date(startTime).toLocaleTimeString('en-US', {
         hour: '2-digit', minute: '2-digit', hour12: true,
-    });
+    }) : '';
 
     const handleRegister = async () => {
         setLoading(true);
         setError('');
         try {
             await registrationService.registerForEvent(booking._id);
-            // The nullish coalescing operator (??) is used here for safety, 
-            // in case onRegisterSuccess is not passed as a prop (e.g., on MyRegistrationsPage).
             onRegisterSuccess?.(booking._id);
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed.');
@@ -58,6 +59,17 @@ const EventCard = ({ booking, isRegistered, onRegisterSuccess }) => {
             </button>
         );
     };
+
+    // If the core booking data is missing, render a fallback card
+    if (!event || !venue) {
+        return (
+             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden flex flex-col p-6 text-center">
+                <AlertCircle size={32} className="mx-auto text-red-500 mb-4" />
+                <h3 className="font-bold text-slate-900 dark:text-white">Event Data Missing</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">This event or its venue may have been removed by an administrator.</p>
+             </div>
+        )
+    }
 
     return (
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden flex flex-col">
