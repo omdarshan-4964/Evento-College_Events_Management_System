@@ -10,10 +10,8 @@ const AdminDashboard = () => {
     const [error, setError] = useState(null);
 
     const fetchBookings = async () => {
-        // No need to set loading here again if called from handlers
         try {
             const { data } = await bookingService.getAllBookings();
-            // Sort by most recently created
             data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setBookings(data);
         } catch (err) {
@@ -46,7 +44,7 @@ const AdminDashboard = () => {
         if (window.confirm('Are you sure you want to cancel this booking? This will also remove all student registrations for it.')) {
             try {
                 await bookingService.deleteBooking(bookingId);
-                fetchBookings(); // Refresh the list from the server
+                fetchBookings();
             } catch (err) {
                 setError('Failed to cancel the booking.');
             }
@@ -59,12 +57,20 @@ const AdminDashboard = () => {
 
     if (loading) return <div className="flex justify-center mt-10"><Spinner /></div>;
 
+    // This component now safely handles potentially null events or venues
     const BookingRow = ({ booking, children }) => (
         <div className="p-4 border border-slate-200 dark:border-slate-700 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <p className="font-bold text-lg text-indigo-600 dark:text-indigo-400">{booking.event.name}</p>
-                <p className="text-sm text-slate-600 dark:text-slate-300">Venue: {booking.venue.name}</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400">{new Date(booking.startTime).toLocaleString()}</p>
+                {/* FIX: Use optional chaining (?.) and provide a fallback text */}
+                <p className="font-bold text-lg text-indigo-600 dark:text-indigo-400">
+                    {booking.event?.name || 'Deleted Event'}
+                </p>
+                <p className="text-sm text-slate-600 dark:text-slate-300">
+                    Venue: {booking.venue?.name || 'Deleted Venue'}
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                    {new Date(booking.startTime).toLocaleString()}
+                </p>
             </div>
             <div className="flex items-center space-x-3 flex-shrink-0">
                 {children}
