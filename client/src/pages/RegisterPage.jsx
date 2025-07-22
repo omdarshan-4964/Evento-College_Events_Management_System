@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import AuthFormCard from '../components/layout/AuthFormCard';
 import Spinner from '../components/common/Spinner';
 
+
 const RegisterPage = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'student' });
   const { register, loading, error, setError } = useAuth();
@@ -23,7 +24,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <AuthFormCard title="Create a new account">
+    
+      <AuthFormCard title="Create a new account">
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && <div className="bg-red-100 dark:bg-red-900/30 border border-red-400 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-center text-sm">{error}</div>}
         <div>

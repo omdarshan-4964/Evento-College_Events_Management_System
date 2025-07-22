@@ -1,8 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, LogOut, LayoutDashboard, Building, Calendar as CalendarIcon, ClipboardCheck, BarChart2, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ThemeToggle from '../common/ThemeToggle';
-import EventoLogo from '../../assets/logo.svg';
+import {Logo } from './Logo';
+
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -10,16 +11,23 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
   
   return (
     <nav className="bg-white dark:bg-slate-900 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex-shrink-0">
-            {/* Use the imported SVG logo */}
-            <img src={EventoLogo} alt="Evento Logo" className="h-10 w-auto" />
+          <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center gap-3">
+            <Logo size="default" />
+            <div>
+              <span className="block text-xl font-bold text-indigo-600 dark:text-indigo-400">
+                Evento
+              </span>
+              <span className="block text-xs font-medium text-slate-500 dark:text-slate-400">
+                College Events Management System
+              </span>
+            </div>
           </Link>
           <div className="flex items-center space-x-2 sm:space-x-4">
             {isAuthenticated ? (
@@ -60,14 +68,7 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to="/login" className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                  <LogIn size={18} />
-                  <span>Login</span>
-                </Link>
-                <Link to="/register" className="flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600">
-                  <UserPlus size={18} />
-                  <span>Register</span>
-                </Link>
+                
               </>
             )}
             <ThemeToggle />

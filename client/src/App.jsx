@@ -22,18 +22,15 @@ import CalendarPage from './pages/CalendarPage';
 import EditBookingPage from './pages/bookings/EditBookingPage';
 import AnalyticsPage from './pages/admin/AnalyticsPage';
 import UserManagementPage from './pages/admin/UserManagementPage';
+import HomeHeader from './components/layout/HomeHeader';
 
 // This is a wrapper component to allow App to use routing hooks
 const AppContent = () => {
-  const location = useLocation();
-
-  // These are the routes where the main navbar will be hidden
-  const hideNavbarRoutes = ['/', '/login', '/register'];
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
-      {!shouldHideNavbar && <Navbar />}
+      {<Navbar />}
       <main>
         <Routes>
           <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />

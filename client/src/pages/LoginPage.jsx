@@ -21,7 +21,7 @@ const LoginPage = () => {
   };
 
   return (
-    <AuthFormCard title="Login to your account">
+      <AuthFormCard title="Login to your account">
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && <div className="bg-red-100 dark:bg-red-900/30 border border-red-400 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-center text-sm">{error}</div>}
         <div>
