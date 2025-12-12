@@ -1,6 +1,30 @@
 # Evento - College Event Management System
 
+**🎉 For Recruiters & Visitors:** See [DEMO_SETUP.md](DEMO_SETUP.md) for a quick 5-minute setup guide with pre-loaded demo data!
+
 Evento is a full-stack MERN application designed to solve the core problem of venue booking conflicts and streamline event management for college clubs. It provides a centralized platform for admins to manage venues, for clubs to create events and book venues, and for students to discover and register for upcoming events.
+
+## 🚀 Quick Demo Setup (Recommended for Recruiters)
+
+Want to see the full project with all features? Follow these 3 simple steps:
+
+```bash
+# 1. Install dependencies
+cd server && npm install
+cd ../client && npm install
+
+# 2. Configure .env in server folder (add your MongoDB URI)
+
+# 3. Seed demo data (creates users, events, venues, bookings)
+cd server && npm run seed
+
+# 4. Start the application
+npm run dev  # In both server and client folders
+```
+
+**Demo Credentials:** Visit the login page to see clickable demo credential cards for Student, Club Admin, and Super Admin roles!
+
+---
 
 ## Live Demo
 

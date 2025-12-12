@@ -27,13 +27,18 @@ const ClubDashboard = () => {
             setMyBookings(bookingsRes.data);
 
             const bookedEventIds = new Set(bookingsRes.data.map(b => b.event?._id));
-            const myCreatedEvents = eventsRes.data.filter(event => event.organizer._id === user._id);
+            
+            // FIX: Use optional chaining (?.) to prevent crashes if an event has no organizer
+            const myCreatedEvents = eventsRes.data.filter(event => event.organizer?._id === user._id);
+            
             const notYetBooked = myCreatedEvents.filter(event => !bookedEventIds.has(event._id));
             
             setUnbookedEvents(notYetBooked);
 
         } catch (err) {
-            setError("Failed to fetch your dashboard data.");
+            // This catch block is triggered by the silent crash
+            console.error("Error processing dashboard data:", err);
+            setError("Failed to process your dashboard data.");
         } finally {
             setLoading(false);
         }

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Calendar, CheckSquare, Users } from 'lucide-react';
+import { Calendar, CheckSquare, Users, Info } from 'lucide-react';
 
 const FeatureCard = ({ icon, title, description }) => (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg text-center">
@@ -16,6 +16,16 @@ const HomePage = () => {
 
   return (
     <div className="bg-slate-50 dark:bg-slate-900">
+      {/* Demo Info Banner */}
+      <div className="bg-gradient-to-r from-amber-500 to-orange-500 dark:from-amber-600 dark:to-orange-600 text-white py-3 px-4">
+        <div className="container mx-auto flex items-center justify-center gap-2 text-sm md:text-base">
+          <Info size={20} className="flex-shrink-0" />
+          <p className="font-medium">
+            <span className="font-bold">Demo Mode:</span> Explore all features with pre-loaded demo accounts. Login as Student, Club Admin, or Super Admin!
+          </p>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="text-center py-20 sm:py-24 px-4">
         <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -24,6 +34,29 @@ const HomePage = () => {
         <p className="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
           Evento is the all-in-one platform for managing your college events seamlessly. Book venues, create events, and never miss an opportunity.
         </p>
+        
+        {/* Demo Info Card */}
+        <div className="mt-8 max-w-2xl mx-auto bg-indigo-50 dark:bg-indigo-900/30 border-2 border-indigo-200 dark:border-indigo-700 rounded-xl p-6">
+          <h3 className="text-xl font-bold text-indigo-900 dark:text-indigo-100 mb-3">
+            👋 Recruiters & Visitors: Try the Full Experience!
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            This is a fully functional demo with sample events and multiple user roles. 
+            Click <strong>Login</strong> to see demo credentials for Student, Club Admin, and Super Admin accounts.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 text-sm">
+            <div className="bg-white dark:bg-slate-800 px-4 py-2 rounded-lg shadow">
+              ✅ Pre-loaded Events
+            </div>
+            <div className="bg-white dark:bg-slate-800 px-4 py-2 rounded-lg shadow">
+              ✅ Multiple User Roles
+            </div>
+            <div className="bg-white dark:bg-slate-800 px-4 py-2 rounded-lg shadow">
+              ✅ Full Functionality
+            </div>
+          </div>
+        </div>
+
         <div className="mt-8 flex justify-center gap-4">
           <button
             onClick={() => navigate('/register')}
