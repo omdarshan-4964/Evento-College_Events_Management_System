@@ -4,15 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, Shield, Users, Mail, Lock, Sparkles, LogIn } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
+import { GoogleLogin } from '@react-oauth/google';
 
 import { useAuth } from '../context/AuthContext';
 import AuthFormCard from '../components/layout/AuthFormCard';
-import Spinner from '../components/common/Spinner';
+import Spinner from '../common/Spinner';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, loading, error, setError } = useAuth();
+  const { login, googleLogin, loading, error, setError } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => { setError(null) }, [setError]);
@@ -28,10 +29,13 @@ const LoginPage = () => {
     setPassword('demo123');
   };
 
-  const handleGoogleLogin = () => {
-    // TODO: Implement Google OAuth
-    console.log('Google OAuth will be implemented here');
-    alert('Google OAuth integration coming soon! For now, use demo credentials above.');
+  const handleGoogleSuccess = async (credentialResponse) => {
+    const success = await googleLogin(credentialResponse.credential);
+    if (success) navigate('/dashboard');
+  };
+
+  const handleGoogleError = () => {
+    setError('Google login failed. Please try again.');
   };
 
   return (
@@ -233,16 +237,17 @@ const LoginPage = () => {
               </div>
 
               {/* Google OAuth Button */}
-              <motion.button
-                type="button"
-                onClick={handleGoogleLogin}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full flex justify-center items-center gap-3 py-4 px-4 border-2 border-slate-300 dark:border-slate-600 rounded-xl shadow-sm text-base font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all"
-              >
-                <FcGoogle size={24} />
-                <span>Sign in with Google</span>
-              </motion.button>
+              <div className="flex justify-center">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  theme="outline"
+                  size="large"
+                  text="signin_with"
+                  shape="rectangular"
+                  width="100%"
+                />
+              </div>
 
               {/* Register Link */}
               <div className="text-center text-sm">
@@ -261,5 +266,4 @@ const LoginPage = () => {
     </div>
   );
 };
-export default LoginPage;
 export default LoginPage;

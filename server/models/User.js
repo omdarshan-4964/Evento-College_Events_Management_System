@@ -14,13 +14,23 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function() {
+        return !this.googleId; // Password only required if not using Google auth
+      },
     },
     role: {
       type: String,
       required: true,
       enum: ['student', 'club_admin', 'super_admin'],
       default: 'student',
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    profilePicture: {
+      type: String,
     },
     // You can add a field to link a club_admin to their club later
     // club: { type: String } 

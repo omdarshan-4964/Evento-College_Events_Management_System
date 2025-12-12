@@ -1,5 +1,8 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Utility to generate token
 const generateToken = (id) => {
@@ -70,4 +73,68 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+/**
+ * @desc    Google OAuth Login
+ * @route   POST /api/auth/google
+ * @access  Public
+ */
+const googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+    
+    // Verify the Google token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    const { email, name, picture, sub: googleId } = payload;
+    
+    // Check if email is from allowed domain
+    const allowedDomain = '@gmail.com';
+    if (!email.endsWith(allowedDomain)) {
+      return res.status(400).json({ 
+        message: `Registration is only allowed for ${allowedDomain} addresses.` 
+      });
+    }
+    
+    // Find or create user
+    let user = await User.findOne({ email });
+    
+    if (!user) {
+      // Create new user with Google auth
+      user = await User.create({
+        name,
+        email,
+        googleId,
+        profilePicture: picture,
+        role: 'student', // Default role
+        password: Math.random().toString(36).slice(-8), // Random password (not used)
+      });
+    } else if (!user.googleId) {
+      // Update existing user with Google ID
+      user.googleId = googleId;
+      user.profilePicture = picture;
+      await user.save();
+    }
+    
+    // Return user data with JWT token
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      profilePicture: user.profilePicture,
+      token: generateToken(user._id),
+    });
+  } catch (error) {
+    console.error('Google auth error:', error);
+    res.status(401).json({ 
+      message: 'Invalid Google token or authentication failed',
+      error: error.message 
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser, googleLogin };
