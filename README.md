@@ -1,6 +1,8 @@
-# Evento - College Event Management System
+# Evento - College Event Management System 🎓
 
 **🎉 Quick Start:** See [DEMO_SETUP.md](DEMO_SETUP.md) for a quick 5-minute setup guide with pre-loaded demo data!
+
+[![Deployment Status](https://img.shields.io/badge/Vercel-Deployed-success?style=flat&logo=vercel)](https://vercel.com)
 
 Evento is a full-stack MERN application designed to solve the core problem of venue booking conflicts and streamline event management for college clubs. It provides a centralized platform for admins to manage venues, for clubs to create events and book venues, and for students to discover and register for upcoming events.
 
