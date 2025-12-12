@@ -1,8 +1,7 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogIn, UserPlus, LogOut, LayoutDashboard, Building, Calendar as CalendarIcon, ClipboardCheck, BarChart2, Users } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { LogOut, LayoutDashboard, Building, Calendar as CalendarIcon, ClipboardCheck, BarChart2, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ThemeToggle from '../common/ThemeToggle';
-import {Logo } from './Logo';
 
 
 const Navbar = () => {
@@ -15,62 +14,57 @@ const Navbar = () => {
   };
   
   return (
-    <nav className="bg-white dark:bg-slate-900 shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center gap-3">
-            <Logo size="default" />
-            <div>
-              <span className="block text-xl font-bold text-indigo-600 dark:text-indigo-400">
-                Evento
-              </span>
-              <span className="block text-xs font-medium text-slate-500 dark:text-slate-400">
-                College Events Management System
-              </span>
+    <nav className="bg-white dark:bg-slate-900 shadow-md sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800">
+      <div className="container mx-auto px-3 sm:px-4">
+        <div className="flex items-center justify-between h-14">
+          {/* Brand */}
+          <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center gap-2 group">
+            <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+              <span className="text-white font-bold text-sm">E</span>
             </div>
+            <span className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Evento
+            </span>
           </Link>
-          <div className="flex items-center space-x-2 sm:space-x-4">
+
+          {/* Navigation Links */}
+          <div className="flex items-center gap-1.5">
             {isAuthenticated ? (
               <>
-                {/* Links for All Logged-in Users */}
-                <Link to="/calendar" className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                    <CalendarIcon size={18} /><span className="hidden sm:inline">Calendar</span>
+                <Link to="/dashboard" className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:shadow-lg transition-all duration-300" title="Dashboard">
+                  <LayoutDashboard size={18} /><span className="hidden lg:inline">Dashboard</span>
                 </Link>
-                <Link to="/dashboard" className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                  <LayoutDashboard size={18} /><span className="hidden sm:inline">Dashboard</span>
+                <Link to="/calendar" className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:shadow-lg transition-all duration-300" title="Calendar">
+                  <CalendarIcon size={18} /><span className="hidden lg:inline">Calendar</span>
                 </Link>
 
-                {/* Student-Only Link */}
                 {user?.role === 'student' && (
-                    <Link to="/my-registrations" className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                        <ClipboardCheck size={18} /><span className="hidden sm:inline">My Registrations</span>
-                    </Link>
+                  <Link to="/my-registrations" className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-green-500 hover:to-emerald-500 hover:text-white hover:shadow-lg transition-all duration-300" title="My Registrations">
+                    <ClipboardCheck size={18} /><span className="hidden xl:inline">Registrations</span>
+                  </Link>
                 )}
 
-                {/* Super Admin-Only Links */}
                 {user?.role === 'super_admin' && (
-                    <>
-                        <Link to="/admin/users" className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                            <Users size={18} /><span className="hidden sm:inline">Users</span>
-                        </Link>
-                        <Link to="/admin/venues" className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                            <Building size={18} /><span className="hidden sm:inline">Venues</span>
-                        </Link>
-                        <Link to="/admin/analytics" className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                            <BarChart2 size={18} /><span className="hidden sm:inline">Analytics</span>
-                        </Link>
-                    </>
+                  <>
+                    <Link to="/admin/users" className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white hover:shadow-lg transition-all duration-300" title="Users">
+                      <Users size={18} /><span className="hidden xl:inline">Users</span>
+                    </Link>
+                    <Link to="/admin/venues" className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-teal-500 hover:to-cyan-500 hover:text-white hover:shadow-lg transition-all duration-300" title="Venues">
+                      <Building size={18} /><span className="hidden xl:inline">Venues</span>
+                    </Link>
+                    <Link to="/admin/analytics" className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-gradient-to-r hover:from-orange-500 hover:to-amber-500 hover:text-white hover:shadow-lg transition-all duration-300" title="Analytics">
+                      <BarChart2 size={18} /><span className="hidden xl:inline">Analytics</span>
+                    </Link>
+                  </>
                 )}
 
-                <button onClick={handleLogout} className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">
-                  <LogOut size={18} />
+                <div className="w-px h-8 bg-gradient-to-b from-transparent via-slate-300 dark:via-slate-600 to-transparent mx-2"></div>
+                
+                <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 hover:shadow-lg transition-all duration-300" title="Logout">
+                  <LogOut size={18} /><span className="hidden sm:inline">Logout</span>
                 </button>
               </>
-            ) : (
-              <>
-                
-              </>
-            )}
+            ) : null}
             <ThemeToggle />
           </div>
         </div>

@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, Shield, Users, Mail, Lock, Sparkles, LogIn } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
 import { GoogleLogin } from '@react-oauth/google';
 
 import { useAuth } from '../context/AuthContext';
-import AuthFormCard from '../components/layout/AuthFormCard';
-import Spinner from '../common/Spinner';
+import Spinner from '../components/common/Spinner';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -39,7 +37,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <motion.div
         animate={{ 
@@ -58,76 +56,75 @@ const LoginPage = () => {
         className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-r from-accent-400/20 to-purple-400/20 rounded-full blur-3xl"
       />
 
-      <div className="max-w-5xl w-full space-y-8 relative z-10">
-        {/* Demo Credentials Banner */}
+      {/* Left Side - Demo Credentials */}
+      <div className="hidden lg:flex lg:w-1/2 p-12 items-center justify-center relative z-10">
         <motion.div 
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-primary-600 via-accent-600 to-purple-600 dark:from-primary-700 dark:via-accent-700 dark:to-purple-700 rounded-2xl shadow-2xl p-6 text-white relative overflow-hidden"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="w-full max-w-lg"
         >
-          <motion.div 
-            animate={{ x: ['-100%', '200%'] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          />
-          <div className="relative z-10">
-            <motion.h3 
-              className="text-xl font-extrabold mb-4 flex items-center gap-3"
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <Shield size={24} />
-              <span>🎉 Demo Credentials - Try Different Roles!</span>
-              <Sparkles size={20} />
-            </motion.h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                { icon: <User size={20} />, role: 'Student Account', email: 'student@demo.com', gradient: 'from-blue-500 to-cyan-500' },
-                { icon: <Users size={20} />, role: 'Club Admin', email: 'club@demo.com', gradient: 'from-purple-500 to-pink-500' },
-                { icon: <Shield size={20} />, role: 'Super Admin', email: 'admin@demo.com', gradient: 'from-orange-500 to-red-500' },
-              ].map((demo, idx) => (
-                <motion.button
-                  key={idx}
-                  onClick={() => quickLogin(demo.email)}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`bg-white/20 hover:bg-white/30 backdrop-blur-xl rounded-xl p-4 text-left transition-all shadow-lg hover:shadow-2xl border border-white/30 group`}
-                >
-                  <div className={`flex items-center gap-2 mb-2 font-bold text-lg`}>
-                    <div className={`p-2 rounded-lg bg-gradient-to-r ${demo.gradient}`}>
-                      {demo.icon}
-                    </div>
-                    {demo.role}
+          <motion.h3 
+            className="text-3xl font-extrabold mb-8 flex items-center gap-3 text-slate-900 dark:text-white"
+            animate={{ scale: [1, 1.02, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <Shield size={32} className="text-primary-500" />
+            <span>Demo Credentials</span>
+            <Sparkles size={24} className="text-accent-500" />
+          </motion.h3>
+          
+          <div className="space-y-4">
+            {[
+              { icon: <User size={24} />, role: 'Student Account', email: 'student@demo.com', gradient: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
+              { icon: <Users size={24} />, role: 'Club Admin', email: 'club@demo.com', gradient: 'from-purple-500 to-pink-500', bg: 'bg-purple-50 dark:bg-purple-900/20' },
+              { icon: <Shield size={24} />, role: 'Super Admin', email: 'admin@demo.com', gradient: 'from-orange-500 to-red-500', bg: 'bg-orange-50 dark:bg-orange-900/20' },
+            ].map((demo, idx) => (
+              <motion.button
+                key={idx}
+                onClick={() => quickLogin(demo.email)}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                whileHover={{ scale: 1.03, x: 10 }}
+                whileTap={{ scale: 0.97 }}
+                className={`w-full ${demo.bg} border-2 border-slate-200 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 rounded-2xl p-6 text-left transition-all shadow-lg hover:shadow-2xl group`}
+              >
+                <div className="flex items-center gap-4 mb-3">
+                  <div className={`p-3 rounded-xl bg-gradient-to-r ${demo.gradient} text-white shadow-lg`}>
+                    {demo.icon}
                   </div>
-                  <div className="text-sm opacity-90 font-medium">{demo.email}</div>
-                  <div className="text-xs opacity-75 mt-1">Password: demo123</div>
-                  <div className="mt-2 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                    Click to auto-fill →
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-sm mt-4 opacity-90 text-center font-medium"
-            >
-              ✨ Click any card above to auto-fill credentials and explore different dashboards!
-            </motion.p>
+                  <div className="font-bold text-xl text-slate-900 dark:text-white">{demo.role}</div>
+                </div>
+                <div className="text-sm text-slate-700 dark:text-slate-300 font-medium mb-1">{demo.email}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">Password: demo123</div>
+                <div className="mt-3 text-xs font-bold text-primary-600 dark:text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                  Click to auto-fill <span className="text-base">→</span>
+                </div>
+              </motion.button>
+            ))}
           </div>
-        </motion.div>
 
-        {/* Login Form */}
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-sm mt-6 text-slate-600 dark:text-slate-400 text-center font-medium bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-200 dark:border-slate-700"
+          >
+            ✨ Click any card above to auto-fill credentials and explore different dashboards!
+          </motion.p>
+        </motion.div>
+      </div>
+
+      {/* Right Side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12 relative z-10">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          className="w-full max-w-md bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-8"
         >
-          <div className="p-8 sm:p-12">
-            {/* Header */}
-            <div className="text-center mb-8">
+          {/* Header */}
+          <div className="text-center mb-8">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -247,20 +244,19 @@ const LoginPage = () => {
                   shape="rectangular"
                   width="100%"
                 />
-              </div>
+            </div>
 
-              {/* Register Link */}
-              <div className="text-center text-sm">
-                <span className="text-slate-600 dark:text-slate-400">Don't have an account? </span>
-                <Link 
-                  to="/register" 
-                  className="font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
-                >
-                  Sign up now
-                </Link>
-              </div>
-            </form>
-          </div>
+            {/* Register Link */}
+            <div className="text-center text-sm">
+              <span className="text-slate-600 dark:text-slate-400">Don't have an account? </span>
+              <Link 
+                to="/register" 
+                className="font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
+              >
+                Sign up now
+              </Link>
+            </div>
+          </form>
         </motion.div>
       </div>
     </div>

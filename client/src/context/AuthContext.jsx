@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext, useContext, useMemo } from 'react';
+import toast from 'react-hot-toast';
 import api from '../services/api';
 
 const AuthContext = createContext();
@@ -30,9 +31,12 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data));
       localStorage.setItem('token', data.token);
       api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      toast.success(`Welcome back, ${data.name}! 👋`);
       return true;
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      const errorMsg = err.response?.data?.message || 'Login failed. Please try again.';
+      setError(errorMsg);
+      toast.error(errorMsg);
       return false;
     } finally {
       setLoading(false);
@@ -49,9 +53,12 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data));
       localStorage.setItem('token', data.token);
       api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      toast.success(`Account created successfully! Welcome, ${data.name}! 🎉`);
       return true;
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      const errorMsg = err.response?.data?.message || 'Registration failed. Please try again.';
+      setError(errorMsg);
+      toast.error(errorMsg);
       return false;
     } finally {
       setLoading(false);
@@ -68,9 +75,12 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data));
       localStorage.setItem('token', data.token);
       api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      toast.success(`Welcome, ${data.name}! 🚀`);
       return true;
     } catch (err) {
-      setError(err.response?.data?.message || 'Google login failed. Please try again.');
+      const errorMsg = err.response?.data?.message || 'Google login failed. Please try again.';
+      setError(errorMsg);
+      toast.error(errorMsg);
       return false;
     } finally {
       setLoading(false);
@@ -83,6 +93,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     delete api.defaults.headers.common['Authorization'];
+    toast.success('Logged out successfully! 👋');
   };
 
   const authContextValue = useMemo(() => ({

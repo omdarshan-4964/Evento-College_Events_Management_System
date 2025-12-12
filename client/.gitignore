@@ -112,3 +112,46 @@ coverage/
 
 # Local secrets
 *.local
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Package lock files (keep only one)
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# Debug logs
+debug.log
+error.log
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+
+# Deployment
+vercel
+.vercel
+.netlify
+.firebase/
+
+# Testing
+__tests__/
+*.test.js
+*.spec.js

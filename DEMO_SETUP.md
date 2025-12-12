@@ -1,6 +1,6 @@
 # 🎉 Evento - Demo Setup Guide
 
-## For Recruiters & Visitors
+## For Visitors
 
 Welcome! This guide will help you quickly set up and explore the **full functionality** of the Evento project, including all user roles (Student, Club Admin, Super Admin).
 

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { Calendar as CalendarIcon, Sparkles } from 'lucide-react';
 import bookingService from '../services/bookingService';
 import Spinner from '../components/common/Spinner';
 
@@ -43,13 +45,40 @@ const CalendarPage = () => {
     }
     
     if (error) {
-        return <div className="text-center py-10 text-red-500">{error}</div>
+        return (
+            <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-10 text-red-500 bg-red-50 dark:bg-red-900/30 mx-4 rounded-xl p-6"
+            >
+                {error}
+            </motion.div>
+        )
     }
 
     return (
         <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Booking Calendar</h1>
-            <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg h-[calc(100vh-12rem)]">
+            {/* Page Header */}
+            <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 rounded-2xl p-6 shadow-2xl text-white mb-8"
+            >
+                <div className="flex items-center gap-3">
+                    <CalendarIcon size={32} />
+                    <div>
+                        <h1 className="text-3xl font-extrabold">Booking Calendar</h1>
+                        <p className="text-sm opacity-90 mt-1">View all approved event bookings</p>
+                    </div>
+                </div>
+            </motion.div>
+
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 h-[calc(100vh-16rem)]"
+            >
                 <Calendar
                     localizer={localizer}
                     events={events}
@@ -58,19 +87,24 @@ const CalendarPage = () => {
                     style={{ height: '100%' }}
                     views={['month', 'week', 'day']}
                     eventPropGetter={(event) => {
-                        // You can add custom styling for events here
+                        // Custom styling for events
                         const style = {
-                            backgroundColor: '#312e81', // indigo-900
-                            borderRadius: '5px',
-                            opacity: 0.8,
+                            backgroundColor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            borderRadius: '8px',
+                            opacity: 0.9,
                             color: 'white',
                             border: '0px',
-                            display: 'block'
+                            display: 'block',
+                            fontSize: '0.875rem',
+                            fontWeight: '600',
+                            padding: '4px 8px',
+                            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.4)'
                         };
                         return { style };
                     }}
                 />
-            </div>
+            </motion.div>
         </div>
     );
 };

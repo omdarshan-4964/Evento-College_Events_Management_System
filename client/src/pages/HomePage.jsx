@@ -122,7 +122,7 @@ const HomePage = () => {
               >
                 <Sparkles size={24} className="text-primary-600 dark:text-primary-400" />
                 <h3 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-400 dark:to-accent-400">
-                  Recruiters & Visitors: Try the Full Experience!
+                  Welcome! Try the Full Experience!
                 </h3>
                 <Sparkles size={24} className="text-accent-600 dark:text-accent-400" />
               </motion.div>

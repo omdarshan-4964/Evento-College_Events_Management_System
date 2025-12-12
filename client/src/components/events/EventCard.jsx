@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { Calendar, MapPin, Check, Users, AlertCircle, Sparkles } from 'lucide-react';
 import registrationService from '../../services/registrationService';
 
@@ -37,9 +38,12 @@ const EventCard = ({ booking, isRegistered, onRegisterSuccess }) => {
         setError('');
         try {
             await registrationService.registerForEvent(booking._id);
+            toast.success('🎉 Registration Successful!');
             onRegisterSuccess?.(booking._id);
         } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed.');
+            const errorMsg = err.response?.data?.message || 'Registration failed.';
+            toast.error(errorMsg);
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -200,10 +204,6 @@ const EventCard = ({ booking, isRegistered, onRegisterSuccess }) => {
                 {renderRegistrationButton()}
             </div>
         </motion.div>
-    );
-};
-
-export default EventCard;
     );
 };
 

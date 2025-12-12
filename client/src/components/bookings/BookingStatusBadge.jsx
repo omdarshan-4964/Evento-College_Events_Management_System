@@ -1,13 +1,13 @@
 const BookingStatusBadge = ({ status }) => {
     const statusStyles = {
-        pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300',
-        approved: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
-        rejected: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
-        cancelled: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
+        pending: 'bg-gradient-to-r from-yellow-400 to-amber-500 text-white shadow-lg',
+        approved: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg',
+        rejected: 'bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-lg',
+        cancelled: 'bg-gradient-to-r from-slate-400 to-slate-500 text-white shadow-lg',
     };
 
     return (
-        <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusStyles[status] || statusStyles.cancelled}`}>
+        <span className={`px-4 py-1.5 inline-flex text-xs leading-5 font-bold rounded-full ${statusStyles[status] || statusStyles.cancelled}`}>
             {status.charAt(0).toUpperCase() + status.slice(1)}
         </span>
     );
